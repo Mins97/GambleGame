@@ -1,8 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-
-export default function App() {
+function HomeScreen() {
   const [coin, setCoin] = useState(0);
   const [gradeT, setGrade] = useState("Stone");
   const [betting, setBetting] = useState(0);
@@ -71,11 +67,11 @@ export default function App() {
     <>
       <View style={styles.header}>
         <Text style={styles.textH1}>
-          현재 당신의 돈은 <Text style={styles.red}>{coin.toFixed(0)}</Text>{" "}
-          코인입니다.
+          현재 당신의 돈은 <Text style={styles.red}>{coin.toFixed(0)} </Text>
+          골드입니다.
         </Text>
         <Text style={styles.textH1}>
-          Your coin is <Text style={styles.red}>{coin.toFixed(0)}</Text> .
+          Your gold is <Text style={styles.red}>{coin.toFixed(0)}</Text> .
         </Text>
         <Text style={styles.textH1}></Text>
         {/* <Text>남은 무료자본 횟수 {coin} .</Text> */}
@@ -121,6 +117,54 @@ export default function App() {
   );
 }
 
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === "Home") {
+              iconName = focused
+                ? "ios-information-circle"
+                : "ios-information-circle-outline";
+            } else if (route.name === "Settings") {
+              iconName = focused ? "ios-list-box" : "ios-list";
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: "tomato",
+          inactiveTintColor: "gray",
+        }}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 const styles = StyleSheet.create({
   red: { color: "red" },
   textH1: { fontSize: 20 },
